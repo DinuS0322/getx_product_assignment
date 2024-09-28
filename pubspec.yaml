@@ -44,6 +44,7 @@ dependencies:
   hive:
   hive_flutter: ^1.0.0
   http:
+  carousel_slider:
 
 dev_dependencies:
   flutter_test:

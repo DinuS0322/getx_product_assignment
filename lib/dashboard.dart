@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx/loginpage.dart';
+import 'package:getx/viewdetails.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -14,7 +15,8 @@ class Product {
   final double price;
   final String image;
   final String brand;
-
+  final double rating;
+  final List<String> images;
   Product({
     required this.id,
     required this.title,
@@ -22,16 +24,22 @@ class Product {
     required this.price,
     required this.image,
     required this.brand,
+    required this.rating,
+    required this.images,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-        id: json['id'] ?? 0,
-        title: json['title'] ?? 'Unknown Title',
-        description: json['description'] ?? 'No Description',
-        price: (json['price'] != null) ? json['price'].toDouble() : 0.0,
-        image: json['thumbnail'] ?? '',
-        brand: json['brand'] ?? 'Unknown brand');
+      id: json['id'] ?? 0,
+      title: json['title'] ?? 'Unknown Title',
+      description: json['description'] ?? 'No Description',
+      price: (json['price'] != null) ? json['price'].toDouble() : 0.0,
+      rating: (json['rating'] != null) ? json['rating'].toDouble() : 0.0,
+      image: json['thumbnail'] ?? '',
+      // Ensure a default empty list if the images field is null
+      images: List<String>.from(json['images'] ?? []),
+      brand: json['brand'] ?? 'Unknown brand',
+    );
   }
 }
 
@@ -78,7 +86,7 @@ class _dashboardState extends State<dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
           title: Text(
             'Dashboard'.toUpperCase(),
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -86,7 +94,16 @@ class _dashboardState extends State<dashboard> {
           centerTitle: true,
           backgroundColor: Colors.blue,
           iconTheme: IconThemeData(color: Colors.white),
-     
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+              tooltip: 'Sign Out',
+              onPressed: _signOut,
+            ),
+          ],
         ),
         body: FutureBuilder<List<Product>>(
           future: futureProducts,
@@ -108,7 +125,9 @@ class _dashboardState extends State<dashboard> {
                 return Material(
                   elevation: 50,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(ProductDetailPage(product: product));
+                    },
                     child: ListTile(
                       title: Text(
                         product.title,
