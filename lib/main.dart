@@ -9,18 +9,15 @@ import 'package:hive_flutter/adapters.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: 'AIzaSyAGAa_AuLpDCWjXyXm8_mPndgafkSF2Lsc',
-      appId: '1:624837942326:android:50a88470d219ee5bc64c97',
-      messagingSenderId: '624837942326',
-      projectId: 'products-getx',
-      storageBucket: 'products-getx.appspot.com',
-    )
-  );
-    await Hive.initFlutter();
+      options: FirebaseOptions(
+    apiKey: 'AIzaSyAGAa_AuLpDCWjXyXm8_mPndgafkSF2Lsc',
+    appId: '1:624837942326:android:50a88470d219ee5bc64c97',
+    messagingSenderId: '624837942326',
+    projectId: 'products-getx',
+    storageBucket: 'products-getx.appspot.com',
+  ));
+  await Hive.initFlutter();
   await Hive.openBox('mybox');
-  var box = Hive.box('myBox');
-  FirebaseDatabase.instance.reference();
   runApp(const MyApp());
 }
 

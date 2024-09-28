@@ -5,11 +5,12 @@ import 'package:get/get.dart';
 import 'package:getx/dashboard.dart';
 import 'package:getx/loginpage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hive/hive.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final Product product;
 
-   ProductDetailPage({Key? key, required this.product}) : super(key: key);
+  ProductDetailPage({Key? key, required this.product}) : super(key: key);
 
   Widget buildImageCarousel() {
     return CarouselSlider(
@@ -67,96 +68,105 @@ class ProductDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: Text(
-          product.title,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.blue,
-        iconTheme: IconThemeData(color: Colors.white),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.logout,
-              color: Colors.white,
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          title: Text(
+            product.title,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.blue,
+          iconTheme: IconThemeData(color: Colors.white),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+              tooltip: 'Sign Out',
+              onPressed: _signOut,
             ),
-            tooltip: 'Sign Out',
-            onPressed: _signOut,
+          ],
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildImageCarousel(),
+              const SizedBox(height: 16),
+              Text(
+                product.title,
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              buildRating(product.rating),
+              const SizedBox(height: 8),
+              Text(
+                'Brand: ${product.brand}',
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Price: \$${product.price}',
+                style: const TextStyle(fontSize: 18, color: Colors.green),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Description:',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                product.description,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+        drawer: drawerData());
+  }
+
+  Widget drawerData() {
+    var box = Hive.box('mybox');
+    var email = box.get('email');
+    var displayName = box.get('displayName');
+    var photoURL = box.get('photoURL');
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                CircleAvatar(
+                  radius: 40,
+                  backgroundImage: NetworkImage(photoURL),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  displayName,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.email),
+            title: Text(email),
+            onTap: () {},
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildImageCarousel(),
-            const SizedBox(height: 16),
-            Text(
-              product.title,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            buildRating(product.rating),
-            const SizedBox(height: 8),
-            Text(
-              'Brand: ${product.brand}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Price: \$${product.price}',
-              style: const TextStyle(fontSize: 18, color: Colors.green),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Description:',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              product.description,
-              style: const TextStyle(fontSize: 16),
-            ),
-          ],
-        ),
-      ),
-       drawer: Drawer(
-            child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
-              onTap: () {
-                // Handle navigation
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-              onTap: () {
-                // Handle navigation
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ))
     );
   }
 }

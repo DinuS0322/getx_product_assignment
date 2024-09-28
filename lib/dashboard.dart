@@ -36,7 +36,6 @@ class Product {
       price: (json['price'] != null) ? json['price'].toDouble() : 0.0,
       rating: (json['rating'] != null) ? json['rating'].toDouble() : 0.0,
       image: json['thumbnail'] ?? '',
-      // Ensure a default empty list if the images field is null
       images: List<String>.from(json['images'] ?? []),
       brand: json['brand'] ?? 'Unknown brand',
     );
@@ -162,39 +161,50 @@ class _dashboardState extends State<dashboard> {
             );
           },
         ),
-        drawer: Drawer(
-            child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+        drawer: drawerData());
+  }
+
+  Widget drawerData() {
+    var box = Hive.box('mybox');
+    var email = box.get('email');
+    var displayName = box.get('displayName');
+    var photoURL = box.get('photoURL');
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                CircleAvatar(
+                  radius: 40,
+                  backgroundImage: NetworkImage(photoURL),
                 ),
-              ),
+                SizedBox(height: 10),
+                Text(
+                  displayName,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ],
             ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
-              onTap: () {
-                // Handle navigation
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-              onTap: () {
-                // Handle navigation
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        )));
+          ),
+          ListTile(
+            leading: Icon(Icons.email),
+            title: Text(email),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          
+        ],
+      ),
+    );
   }
 }

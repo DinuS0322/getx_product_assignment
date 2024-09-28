@@ -81,7 +81,7 @@ class _loginpageState extends State<loginpage> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15, right: 15),
                     child: Text(
-                      'Social media login allows users to sign into an app or website using their existing social media accounts, such as Facebook, Google, or Twitter. This eliminates the need for creating and remembering new login credentials. It provides a seamless and convenient user experience, reducing friction during sign-up and login processes.',
+                      'Social media login allows users to sign into an app or website using their existing social media accounts, such as Google. This eliminates the need for creating and remembering new login credentials. It provides a seamless and convenient user experience, reducing friction during sign-up and login processes.',
                       textAlign: TextAlign.justify,
                       style: TextStyle(fontSize: 16),
                     ),
