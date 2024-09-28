@@ -37,6 +37,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   get:
   icons_launcher:
+  firebase_database: 
+  firebase_core: 
+  firebase_auth:
+  google_sign_in: ^6.2.1
+  hive:
+  hive_flutter: ^1.0.0
 
 dev_dependencies:
   flutter_test:

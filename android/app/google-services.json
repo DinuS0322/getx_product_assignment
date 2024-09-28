@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "624837942326",
+    "project_id": "products-getx",
+    "storage_bucket": "products-getx.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624837942326:android:50a88470d219ee5bc64c97",
+        "android_client_info": {
+          "package_name": "com.example.getx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624837942326-332v3pqqoq1dsuffkus5f4717sajbnqq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGAa_AuLpDCWjXyXm8_mPndgafkSF2Lsc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "624837942326-332v3pqqoq1dsuffkus5f4717sajbnqq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

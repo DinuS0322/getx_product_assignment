@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 class dashboard extends StatefulWidget {
   const dashboard({super.key});
@@ -28,27 +29,17 @@ class _dashboardState extends State<dashboard> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  Get.back();
-                },
-                icon: Icon(
-                  Icons.forward,
-                  color: Colors.white,
-                ),
-                label: Text(
-                  'Next',
-                  style: TextStyle(color: Colors.white),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      Color.fromARGB(255, 73, 115, 230)),
-                ),
-              )
+              name(),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget name() {
+    var box = Hive.box('myBox');
+    var displayName =  box.get('displayName');
+    return Text(displayName);
   }
 }
